@@ -5,12 +5,13 @@ from typing import *
 __all__ = ["decorator", "init", "tool"]
 
 
-def decorator(cls: type, carry: Iterable, /, **kwargs) -> type:
+def decorator(args: Iterable, cls: type, /, **kwargs) -> type:
     cargo = dict()
-    for x in carry:
+    for x in args:
         cargo[x] = getattr(cls, x)
         delattr(cls, x)
     cls = dataclass(cls, **kwargs)
+    print(cargo)
     cls = type(cls.__name__, (cls,), cargo)
     return cls
 
